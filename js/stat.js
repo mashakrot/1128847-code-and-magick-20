@@ -9,47 +9,64 @@ var EXTERNAL_GAP = 30;
 var FONT_GAP = 18;
 var BAR_WIDTH = 40;
 var BAR_GAP = 50;
-var maxBarHeight = 150;
+var MAX_BAR_HEIGHT = 150;
+var CLOUD_COLOR = '#ffffff';
+var SHADOW_COLOR = 'rgba(0, 0, 0, 0.7)';
 
 var renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
 };
 
+var renderText = function (ctx, text, gap) {
+  ctx.fillText(text, CLOUD_X + EXTERNAL_GAP, CLOUD_Y + EXTERNAL_GAP + gap);
+};
+
 var getMaxElement = function (arr) {
-  var maxElement = arr[0];
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i] > maxElement) {
-      maxElement = arr[i];
-    }
-  }
+  var maxElement = Math.max.apply(null, arr);
   return maxElement;
 };
 
-window.renderStatistics = function (ctx, players, times) {
-  renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
-  renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
+var gettingRandomNumber = function () {
+  var randomNumber = (Math.floor(Math.random() * 100) + 1);
+  var colorSaturation = 'hsl(240,' + randomNumber + '%, 50%)';
+  return colorSaturation;
+};
 
-  ctx.fillStyle = '#000';
-  ctx.font = '16px PT Mono';
+var drawSeparateColumn = function (ctx, x, y, width, height) {
+  ctx.fillRect(x, y, width, height);
+};
 
-  ctx.fillText('Ура вы победили!', CLOUD_X + EXTERNAL_GAP, CLOUD_Y + EXTERNAL_GAP);
-  ctx.fillText('Список результатов:', CLOUD_X + EXTERNAL_GAP, CLOUD_Y + EXTERNAL_GAP + FONT_GAP);
-
+var drawHistogram = function (ctx, arr, times) {
   var maxTime = getMaxElement(times);
 
-  for (var i = 0; i < players.length; i++) {
-    var barHeight = (maxBarHeight * times[i]) / maxTime;
-    ctx.fillText(Math.ceil(times[i]), CLOUD_X + EXTERNAL_GAP + (BAR_GAP + BAR_WIDTH) * i, CLOUD_Y + 70 + (maxBarHeight - barHeight));
+  arr.forEach(function (item, i, players) {
+    var barHeight = (MAX_BAR_HEIGHT * times[i]) / maxTime;
+    var columnX = CLOUD_X + EXTERNAL_GAP + (BAR_GAP + BAR_WIDTH) * i;
+    var columnY = CLOUD_Y + 80 + (MAX_BAR_HEIGHT - barHeight);
+    var columnTextY = CLOUD_Y + 80 + MAX_BAR_HEIGHT + FONT_GAP;
 
-    // ctx.fillStyle = 'hsl(240, 100%, 50%)';
-    if (players[i] === 'Вы') {
-      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-    }
+    ctx.fillText(Math.ceil(times[i]), CLOUD_X + EXTERNAL_GAP + (BAR_GAP + BAR_WIDTH) * i, CLOUD_Y + 70 + (MAX_BAR_HEIGHT - barHeight));
 
-    ctx.fillRect(CLOUD_X + EXTERNAL_GAP + (BAR_GAP + BAR_WIDTH) * i, CLOUD_Y + 80 + (maxBarHeight - barHeight), BAR_WIDTH, barHeight);
+    // теперь вроде работает только ESLint возмущается
+    players[i] === 'Вы' ? ctx.fillStyle = 'rgba(255, 0, 0, 1)' : ctx.fillStyle = gettingRandomNumber();
+
+    drawSeparateColumn(ctx, columnX, columnY, BAR_WIDTH, barHeight);
 
     ctx.fillStyle = '#000000';
-    ctx.fillText(players[i], CLOUD_X + EXTERNAL_GAP + (BAR_GAP + BAR_WIDTH) * i, CLOUD_Y + 80 + maxBarHeight + FONT_GAP);
-  }
+    ctx.fillText(players[i], columnX, columnTextY);
+  });
+};
+
+window.renderStatistics = function (ctx, players, times) {
+  renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, SHADOW_COLOR);
+  renderCloud(ctx, CLOUD_X, CLOUD_Y, CLOUD_COLOR);
+
+  ctx.fillStyle = '#000000';
+  ctx.font = '16px PT Mono';
+
+  renderText(ctx, 'Ура вы победили!', 0);
+  renderText(ctx, 'Список результатов:', FONT_GAP);
+
+  drawHistogram(ctx, players, times);
 };
