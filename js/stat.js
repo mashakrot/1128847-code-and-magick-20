@@ -29,7 +29,7 @@ var getMaxElement = function (arr) {
   return Math.max.apply(null, arr);
 };
 
-var getBlueColor = function () {
+var getBlueColorWithRandomSaturation = function () {
   var randomNumber = (Math.floor(Math.random() * 100) + 1);
   return 'hsl(240,' + randomNumber + '%, 50%)';
 };
@@ -49,7 +49,7 @@ var drawHistogram = function (ctx, players, times) {
 
     ctx.fillText(Math.ceil(times[i]), columnX, columnY - 10);
 
-    ctx.fillStyle = player === 'Вы' ? 'rgba(255, 0, 0, 1)' : getBlueColor();
+    ctx.fillStyle = player === 'Вы' ? 'rgba(255, 0, 0, 1)' : getBlueColorWithRandomSaturation();
 
     drawColumn(ctx, columnX, columnY, BAR_WIDTH, barHeight);
 
