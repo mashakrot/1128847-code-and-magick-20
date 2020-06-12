@@ -24,7 +24,7 @@ var closeSetup = function () {
 };
 
 var onPopupEscPress = function (evt) {
-  if (evt.key === 'Escape' && setupUserName !=== document.activeElement) {
+  if (evt.key === 'Escape' && setupUserName !== document.activeElement) {
     evt.preventDefault();
     closeSetup();
   }
