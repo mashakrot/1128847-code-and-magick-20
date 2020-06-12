@@ -97,7 +97,7 @@ var renderWizards = function (wizards) {
   similarListElement.appendChild(wizardsFragment);
 };
 
-var changeCoatColor = function () {
+var onCoatClick = function () {
   var coatColorInput = document.querySelector('.setup-wizard-appearance').querySelector('input[name="coat-color"]');
 
   var color = getRandomElement(WIZARDS_COAT_COLORS);
@@ -106,10 +106,10 @@ var changeCoatColor = function () {
 };
 
 var hangUpCoatColorHandler = function () {
-  wizardCoat.addEventListener('click', changeCoatColor);
+  wizardCoat.addEventListener('click', onCoatClick);
 };
 
-var changeEyesColor = function () {
+var onEyesClick = function () {
   var eyesColorInput = document.querySelector('.setup-wizard-appearance').querySelector('input[name="eyes-color"]');
 
   var color = getRandomElement(WIZARDS_EYES_COLORS);
@@ -118,10 +118,10 @@ var changeEyesColor = function () {
 };
 
 var hangUpEyesColorHandler = function () {
-  wizardEyes.addEventListener('click', changeEyesColor);
+  wizardEyes.addEventListener('click', onEyesClick);
 };
 
-var changeFireballColor = function () {
+var onFireballClick = function () {
   var fireballColorInput = wizardFireball.querySelector('input');
 
   var color = getRandomElement(FIREBALL_COLOR);
@@ -130,7 +130,7 @@ var changeFireballColor = function () {
 };
 
 var hangUpFireballColorHandler = function () {
-  wizardFireball.addEventListener('click', changeFireballColor);
+  wizardFireball.addEventListener('click', onFireballClick);
 };
 
 showSetupWindow();
