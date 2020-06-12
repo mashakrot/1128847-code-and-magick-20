@@ -24,12 +24,9 @@ var closeSetup = function () {
 };
 
 var onPopupEscPress = function (evt) {
-  if (evt.key === 'Escape') {
+  if (evt.key === 'Escape' && setupUserName !=== document.activeElement) {
     evt.preventDefault();
     closeSetup();
-  }
-  if (setupUserName === document.activeElement) {
-    openSetup();
   }
 };
 
