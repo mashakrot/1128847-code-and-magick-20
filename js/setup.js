@@ -13,7 +13,17 @@ var setupOpen = document.querySelector('.setup-open');
 var setupClose = document.querySelector('.setup-close');
 var setupUserName = document.querySelector('.setup-user-name');
 
-var openPopupEscPress = function (evt) {
+var openSetup = function () {
+  setup.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var closeSetup = function () {
+  setup.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+var onPopupEscPress = function (evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
     closeSetup();
@@ -23,36 +33,26 @@ var openPopupEscPress = function (evt) {
   }
 };
 
-var openSetup = function () {
-  setup.classList.remove('hidden');
-  document.addEventListener('keydown', openPopupEscPress);
+var onIconEnterPress = function (evt) {
+  if (evt.key === 'Enter') {
+    openSetup();
+  }
 };
 
-var closeSetup = function () {
-  setup.classList.add('hidden');
-  document.removeEventListener('keydown', openPopupEscPress);
+var onPopupEnterPress = function (evt) {
+  if (evt.key === 'Enter') {
+    closeSetup();
+  }
 };
 
 var showSetupWindow = function () {
-  setupOpen.addEventListener('click', function () {
-    openSetup();
-  });
+  setupOpen.addEventListener('click', openSetup);
 
-  setupOpen.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Enter') {
-      openSetup();
-    }
-  });
+  setupOpen.addEventListener('keydown', onIconEnterPress);
 
-  setupClose.addEventListener('click', function () {
-    closeSetup();
-  });
+  setupClose.addEventListener('click', closeSetup);
 
-  setupClose.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Enter') {
-      closeSetup();
-    }
-  });
+  setupClose.addEventListener('keydown', onPopupEnterPress);
 
   var setupSimilar = document.querySelector('.setup-similar');
   setupSimilar.classList.remove('hidden');
@@ -100,37 +100,50 @@ var renderWizards = function (wizards) {
   similarListElement.appendChild(wizardsFragment);
 };
 
-var chengeCoatColor = function () {
-  var wizardCoat = setupWizard.querySelector('.wizard-coat');
+var changeCoatColor = function () {
+  var coatColorInput = document.querySelector('.setup-wizard-appearance').querySelector('input[name="coat-color"]');
 
-  wizardCoat.addEventListener('click', function () {
-    wizardCoat.style = 'fill: ' + getRandomElement(WIZARDS_COAT_COLORS);
-  });
+  var color = getRandomElement(WIZARDS_COAT_COLORS);
+  wizardCoat.style = 'fill: ' + color;
+  coatColorInput.value = color;
 };
 
-var chengeEyesColor = function () {
-  var wizardEyes = setupWizard.querySelector('.wizard-eyes');
-
-  wizardEyes.addEventListener('click', function () {
-    wizardEyes.style = 'fill: ' + getRandomElement(WIZARDS_EYES_COLORS);
-  });
+var hangUpCoatColorHandler = function () {
+  wizardCoat.addEventListener('click', changeCoatColor);
 };
 
-var chengeFireballColor = function () {
-  var wizardFireball = document.querySelector('.setup-fireball-wrap');
+var changeEyesColor = function () {
+  var eyesColorInput = document.querySelector('.setup-wizard-appearance').querySelector('input[name="eyes-color"]');
+
+  var color = getRandomElement(WIZARDS_EYES_COLORS);
+  wizardEyes.style = 'fill: ' + color;
+  eyesColorInput.value = color;
+};
+
+var hangUpEyesColorHandler = function () {
+  wizardEyes.addEventListener('click', changeEyesColor);
+};
+
+var changeFireballColor = function () {
   var fireballColorInput = wizardFireball.querySelector('input');
 
-  wizardFireball.addEventListener('click', function () {
-    var color = getRandomElement(FIREBALL_COLOR);
-    wizardFireball.style = 'background: ' + color;
-    fireballColorInput.value = color;
-  });
+  var color = getRandomElement(FIREBALL_COLOR);
+  wizardFireball.style = 'background: ' + color;
+  fireballColorInput.value = color;
+};
+
+var hangUpFireballColorHandler = function () {
+  wizardFireball.addEventListener('click', changeFireballColor);
 };
 
 showSetupWindow();
 var wizards = generateWizards(NUMBER_OF_WIZARDS);
 renderWizards(wizards);
 
-chengeCoatColor();
-chengeEyesColor();
-chengeFireballColor();
+var wizardCoat = setupWizard.querySelector('.wizard-coat');
+var wizardEyes = setupWizard.querySelector('.wizard-eyes');
+var wizardFireball = document.querySelector('.setup-fireball-wrap');
+
+hangUpCoatColorHandler();
+hangUpFireballColorHandler();
+hangUpEyesColorHandler();
