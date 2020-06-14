@@ -1,5 +1,6 @@
 'use strict';
 
+
 var setup = document.querySelector('.setup');
 var setupUserName = document.querySelector('.setup-user-name');
 
@@ -47,4 +48,3 @@ var onPopupEnterPress = function (evt) {
   var setupSimilar = document.querySelector('.setup-similar');
   setupSimilar.classList.remove('hidden');
 })();
-
