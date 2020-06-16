@@ -20,6 +20,8 @@
     BAR_GAP: 50,
     MAX_BAR_HEIGHT: 150,
     CLOUD_COLOR: '#ffffff',
-    SHADOW_COLOR: 'rgba(0, 0, 0, 0.7)'
+    SHADOW_COLOR: 'rgba(0, 0, 0, 0.7)',
+    SETUP_TOP: 80,
+    SETUP_LEFT: 50
   };
 })();
