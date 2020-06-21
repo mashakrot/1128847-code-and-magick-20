@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var getMaxElement = window.math.getMaxElement;
+  var getBlueColorWithRandomSaturation = window.math.getBlueColorWithRandomSaturation;
+
   var renderCloud = function (ctx, x, y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x, y, window.constants.CLOUD_WIDTH, window.constants.CLOUD_HEIGHT);
@@ -17,7 +20,7 @@
   };
 
   var drawHistogram = function (ctx, players, times) {
-    var maxTime = window.math.getMaxElement(times);
+    var maxTime = getMaxElement(times);
 
     players.forEach(function (player, i) {
       var barHeight = (window.constants.MAX_BAR_HEIGHT * times[i]) / maxTime;
@@ -27,7 +30,7 @@
 
       ctx.fillText(Math.ceil(times[i]), columnX, columnY - 10);
 
-      ctx.fillStyle = player === 'Вы' ? 'rgba(255, 0, 0, 1)' : window.math.getBlueColorWithRandomSaturation();
+      ctx.fillStyle = player === 'Вы' ? 'rgba(255, 0, 0, 1)' : getBlueColorWithRandomSaturation();
 
       drawColumn(ctx, columnX, columnY, window.constants.BAR_WIDTH, barHeight);
 
@@ -36,7 +39,7 @@
     });
   };
 
-  window.renderStatistics = function (ctx, players, times) {
+  var renderStatistics = function (ctx, players, times) {
     renderCloud(ctx, window.constants.CLOUD_X + window.constants.SHADOW_GAP, window.constants.CLOUD_Y + window.constants.SHADOW_GAP, window.constants.SHADOW_COLOR);
     renderCloud(ctx, window.constants.CLOUD_X, window.constants.CLOUD_Y, window.constants.CLOUD_COLOR);
 
@@ -45,4 +48,7 @@
 
     drawHistogram(ctx, players, times);
   };
+
+  window.renderStatistics = renderStatistics;
+
 })();

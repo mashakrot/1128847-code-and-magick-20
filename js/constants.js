@@ -21,7 +21,9 @@
     MAX_BAR_HEIGHT: 150,
     CLOUD_COLOR: '#ffffff',
     SHADOW_COLOR: 'rgba(0, 0, 0, 0.7)',
-    SETUP_TOP: 80,
-    SETUP_LEFT: 50
+    MAX_SIMILAR_WIZARD_COUNT: 4,
+    LOAD_URL: 'https://javascript.pages.academy/code-and-magick/data',
+    SAVE_URL: 'https://javascript.pages.academy/code-and-magick',
+    TIMEOUT_IN_MS: 10000
   };
 })();

@@ -1,49 +1,57 @@
 'use strict';
 
 (function () {
-  var generateWizards = function (quantity) {
-    var wizards = [];
-    for (var i = 0; i < quantity; i++) {
-      var wizardName = window.math.getRandomElement(window.constants.WIZARDS_NAMES) + ' ' + window.math.getRandomElement(window.constants.WIZARDS_SURNAMES);
-      var wizardCoatColor = window.math.getRandomElement(window.constants.WIZARDS_COAT_COLORS);
-      var wizardEyesColor = window.math.getRandomElement(window.constants.WIZARDS_EYES_COLORS);
-      var item = {
-        name: wizardName,
-        coatColor: wizardCoatColor,
-        eyesColor: wizardEyesColor
-      };
-      wizards.push(item);
-    }
-    window.generateWizards = {
-      wizards: wizards
-    };
-
-    return wizards;
-  };
+  var MAX_SIMILAR_WIZARD_COUNT = window.constants.MAX_SIMILAR_WIZARD_COUNT;
+  var LOAD_URL = window.constants.LOAD_URL;
+  var SAVE_URL = window.constants.SAVE_URL;
+  var load = window.backend.load;
+  var userDialog = document.querySelector('.setup');
+  var save = window.backend.save;
 
   var getWizard = function (wizard) {
     var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
     var wizardElement = similarWizardTemplate.cloneNode(true);
 
     wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-    wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+    wizardElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
+    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
 
     return wizardElement;
   };
 
-  var renderWizards = function (wizards) {
+  var successHandler = function (wizards) {
     var similarListElement = document.querySelector('.setup-similar-list');
     var wizardsFragment = document.createDocumentFragment();
 
-    wizards.forEach(function (wizard) {
-      wizardsFragment.appendChild(getWizard(wizard));
-    });
+    for (var i = 0; i < MAX_SIMILAR_WIZARD_COUNT; i++) {
+      wizardsFragment.appendChild(getWizard(wizards[i]));
+    }
 
     similarListElement.appendChild(wizardsFragment);
+
+    userDialog.querySelector('.setup-similar').classList.remove('hidden');
   };
 
-  var wizards = generateWizards(window.constants.NUMBER_OF_WIZARDS);
-  renderWizards(wizards);
-  // Или может стоило разделить этот модуль на несколько модулей?
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  var submitHandler = function (evt) {
+    save(SAVE_URL, new FormData(form), function () {
+      userDialog.classList.add('hidden');
+    }, errorHandler);
+    evt.preventDefault();
+  };
+
+  load(LOAD_URL, successHandler, errorHandler);
+
+  var form = userDialog.querySelector('.setup-wizard-form');
+  form.addEventListener('submit', submitHandler);
 })();

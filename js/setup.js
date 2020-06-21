@@ -5,8 +5,8 @@
   var setupUserName = document.querySelector('.setup-user-name');
 
   var openSetup = function () {
-    setup.style.top = window.constants.SETUP_TOP + 'px';
-    setup.style.left = window.constants.SETUP_LEFT + '%';
+    setup.style.top = '';
+    setup.style.left = '';
     setup.classList.remove('hidden');
     document.addEventListener('keydown', onPopupEscPress);
   };
