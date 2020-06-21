@@ -30,7 +30,7 @@
       setup.style.top = (setup.offsetTop - shift.y) + 'px';
       setup.style.left = (setup.offsetLeft - shift.x) + 'px';
 
-      if (shift.x !== 0 && shift.y !== 0) {
+      if (shift.x !== 0 || shift.y !== 0) {
         dragged = true;
       }
     };
