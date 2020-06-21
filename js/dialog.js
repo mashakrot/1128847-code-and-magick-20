@@ -17,8 +17,6 @@
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
-      dragged = true;
-
       var shift = {
         x: startCoords.x - moveEvt.clientX,
         y: startCoords.y - moveEvt.clientY
@@ -31,6 +29,10 @@
 
       setup.style.top = (setup.offsetTop - shift.y) + 'px';
       setup.style.left = (setup.offsetLeft - shift.x) + 'px';
+
+      if (shift.x !== 0 && shift.y !== 0) {
+        dragged = true;
+      }
     };
 
     var onMouseUp = function (upEvt) {
