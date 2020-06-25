@@ -44,12 +44,12 @@
     }));
   };
 
-  window.wizard.onEyesChange = debounce(function (color) {
+  var onEyesChange = debounce(function (color) {
     eyesColor = color;
     updateWizards();
   });
 
-  window.wizard.onCoatChange = debounce(function (color) {
+  var onCoatChange = debounce(function (color) {
     coatColor = color;
     updateWizards();
   });
@@ -82,4 +82,9 @@
 
   var form = userDialog.querySelector('.setup-wizard-form');
   form.addEventListener('submit', submitHandler);
+
+  window.wizards = {
+    onCoatChange: onCoatChange,
+    onEyesChange: onEyesChange
+  };
 })();

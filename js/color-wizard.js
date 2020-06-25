@@ -8,20 +8,15 @@
   var wizardEyes = setupWizard.querySelector('.wizard-eyes');
   var wizardFireball = document.querySelector('.setup-fireball-wrap');
 
-  var onCoatChange = function (color) {};
-  var onEyesChange = function (color) {};
-  // Здесь Eslint возмущается и я не знаю что с этим можно сделать..
+  var onCoatChange = window.wizards.onCoatChange;
+  var onEyesChange = window.wizards.onEyesChange;
 
-  var wizard = {
-    onCoatChange: onCoatChange,
-    onEyesChange: onEyesChange
-  };
 
   var onCoatClick = function () {
     var coatColorInput = document.querySelector('.setup-wizard-appearance').querySelector('input[name="coat-color"]');
 
     var color = getRandomElement(window.constants.WIZARDS_COAT_COLORS);
-    wizard.onCoatChange(color);
+    onCoatChange(color);
 
     wizardCoat.style = 'fill: ' + color;
     coatColorInput.value = color;
@@ -31,7 +26,7 @@
     var eyesColorInput = document.querySelector('.setup-wizard-appearance').querySelector('input[name="eyes-color"]');
 
     var color = getRandomElement(window.constants.WIZARDS_EYES_COLORS);
-    wizard.onEyesChange(color);
+    onEyesChange(color);
 
     wizardEyes.style = 'fill: ' + color;
     eyesColorInput.value = color;
@@ -60,6 +55,4 @@
   hangUpCoatColorHandler();
   hangUpEyesColorHandler();
   hangUpFireballColorHandler();
-
-  window.wizard = wizard;
 })();
