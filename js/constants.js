@@ -23,6 +23,7 @@
     LOAD_URL: 'https://javascript.pages.academy/code-and-magick/data',
     SAVE_URL: 'https://javascript.pages.academy/code-and-magick',
     TIMEOUT_IN_MS: 10000,
-    DEBOUNCE_INTERVAL: 500
+    DEBOUNCE_INTERVAL: 500,
+    FILE_TYPES: ['gif', 'jpg', 'jpeg', 'png']
   };
 })();
